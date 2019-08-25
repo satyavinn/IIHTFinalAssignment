@@ -24,10 +24,12 @@ CONTENTS OF THIS FILE
    1. Build Application Using Jenkins Job / maven clean install
    2. Configure Jenkins Pipeline Job and refer to Jenkinsfile in root directory; build artifacts will be saved in given target location.
    3. npm goal is added as execution step and UI build files will be compiled in to static folder.
-
+   4. Jenkins has been setup in VLAB, Pipeline job created for Project Manager application can be accessed using the URL: http://localhost:8080/job/iiht_ProjectManager/
+   5. Sonarqube has been installed in VLAB, Code scan results can be viewed in above mentioned URL.
+   
  #Run Application
 
    1. Application jar will be available in target folder after a successful build
-   2. Trigger the command java -jar project-manager-1.0.jar
-   3. Task Manager Application will be running in Port 8091. Access Application from http://localhost:8091
-   4. Loadtest (Using Jmeter) results have been included in the project
+   2. Trigger the command java -jar project-manager-app.jar
+   3. Project Manager Application will be running in Port 8091. Access Application from http://localhost:8091
+   4. Load Test (Using Jmeter) results have been included in the project
