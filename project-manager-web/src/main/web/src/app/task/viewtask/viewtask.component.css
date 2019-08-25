@@ -1,0 +1,108 @@
+.double {
+  border: double  black;
+}
+#viewtask tr:hover {background-color: #ddd;}
+
+#viewtask th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: grey;
+  color: white;
+}
+input {
+  color:black;
+}
+label {
+  color: black;
+}
+.search {
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 4px;
+}
+
+button
+{
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 4px;
+}
+* {
+  font-family: "Trebuchet MS";
+  font-style: italic;
+}
+
+h4 {
+  color:black;
+  text-align: center;
+  border: double black;
+  width: 100%;
+  background: grey;
+}
+
+#cancelButton{
+  margin-left: 25px;
+  border-radius: 10px;
+  background-color:grey;
+  border-color: black;
+  position: center;
+  top: 90%;
+  text-anchor: none;
+}
+
+#selectProjectTask{
+  margin-left: 100px;
+  border-radius: 10px;
+  background-color:grey;
+  border-color: black;
+  position: center;
+  top: 90%;
+}
+
+.modelLabel{
+  color: black;
+  float: left;
+  margin: 10px;
+  width : 75px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+label {
+  color: black;
+  float: left;
+  margin-left: 25px;
+  margin-top: 10px;
+  width : 100px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.modelSelectInput
+{
+  color:black;
+  box-sizing: border-box;
+  border: 2px solid black ;
+  border-radius: 4px;
+  width: 150px !important;
+}
+
+.sortButton
+{
+  float: left;
+  margin: 25px 10px 25px 10px;
+  width : 125px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.green
+{
+  background-color: lightgreen;
+}
+.red
+{
+  background-color: lightpink;
+}

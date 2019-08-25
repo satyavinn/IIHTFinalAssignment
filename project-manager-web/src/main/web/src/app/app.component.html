@@ -1,0 +1,39 @@
+<div>
+  <h2>Project Manager Application</h2>
+</div>
+
+<nav id="nav">
+  <table class="table table-hover" style="border: solid black; width: 100%">
+    <thead>
+    <tr>
+      <th>
+        <div id="addProjectDiv" class="nav-item" >
+          <a class="nav-link" routerLinkActive="active" [ngClass]="{
+            'active' : clickedTab === 'project'}" (click)="changeActiveTab('project')" routerLink="/project">Add Project</a>
+        </div>
+      </th>
+      <th>
+        <div id="addTaskDiv" class="nav-item" >
+          <a class="nav-link" routerLinkActive="active" [ngClass]="{
+            'active' : clickedTab === 'addTask'}" (click)="changeActiveTab('addTask')" routerLink="/addtask">Add Task</a>
+        </div>
+      </th>
+      <th>
+        <div id="addUserDiv" class="nav-item" >
+          <a class="nav-link" routerLinkActive="active" [ngClass]="{
+            'active' : clickedTab === 'user'}" (click)="changeActiveTab('user')" routerLink="/user">Add User</a>
+        </div>
+      </th>
+      <th>
+        <div id="viewTaskDiv" class="nav-item">
+          <a class="nav-link" routerLinkActive="active" [ngClass]="{
+            'active' : clickedTab === 'viewTask'}" (click)="changeActiveTab('viewTask')" routerLink="/viewtask">View Task</a>
+        </div>
+      </th>
+    </tr>
+    </thead>
+  </table>
+</nav>
+<router-outlet></router-outlet>
+<app-footer></app-footer>
+

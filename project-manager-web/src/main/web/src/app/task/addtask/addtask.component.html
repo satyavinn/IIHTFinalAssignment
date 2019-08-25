@@ -1,0 +1,123 @@
+<br/>
+<div class="double">
+  <form id="addTaskForm" #userForm="ngForm" (ngSubmit)="onSubmit(taskModel)">
+    <div class="form-group form-inline">
+      <label>Project</label>
+      <input type="text" placeholder="Select Project" [disabled]="true" required class="form-control"
+             value="{{taskModel.projectId}} - {{taskModel.project}}" autocomplete="off">
+      <button type="button" [disabled]="isParentTask || isEdit" (click)="openProjectSubModel(contentproject)" style="margin-left: 25px" class="glyphicon glyphicon-check">Search</button>
+      <small class="text-danger" [class.d-none]="!projectErrorMessage">{{projectErrorMessage}}</small>
+    </div>
+    <div class="form-group form-inline">
+      <label>Task</label>
+      <input type="text" #task="ngModel" placeholder="Task" required class="form-control" minlength="5"
+             [class.is-invalid]="task.invalid && task.touched" name="task" [(ngModel)]="taskModel.task"
+             autocomplete="off">
+      <small class="text-danger" [class.d-none]="task.valid || task.untouched">Task is required</small>
+    </div>
+    <div class="form-group form-inline">
+      <input type="checkbox" class="form-check-input"
+             id="isParentTask" [disabled]="isEdit" [checked]="isParentTask" style="margin-left: -75px" (change)="parentTaskControl($event)">
+      <label style="margin-left: -275px; width: 200px">Parent Task</label>
+    </div>
+    <div class="form-group form-inline">
+      <label>Priority</label>
+      <input type="range" min="0" max="30" [disabled]="isParentTask" #priority="ngModel" placeholder="Priority" required class="form-control"
+             [class.is-invalid]="priority.invalid && priority.touched" name="priority"
+             [(ngModel)]="taskModel.priority" autocomplete="off">
+      <p style="margin-left: 25px;">{{taskModel.priority}}</p>
+      <small class="text-danger" [class.d-none]="priority.valid || priority.untouched">Priority is required</small>
+    </div>
+    <div class="form-group form-inline">
+      <label>Parent Task</label>
+      <input type="text" placeholder="Select Parent Task" [disabled]="true" required class="form-control"
+             value="{{taskModel.parentId}} - {{taskModel.parentTask}}" autocomplete="off">
+      <button type="button" [disabled]="isParentTask" (click)="openParentTaskSubModel(contentparenttask)" style="margin-left: 25px" class="glyphicon glyphicon-check">Search</button>
+      <small class="text-danger" [class.d-none]="!parentTaskErrorMessage">{{parentTaskErrorMessage}}</small>
+    </div>
+    <div class="form-group form-inline">
+      <label>Start Date</label>
+      <input #startDateString="ngModel" min="{{todayString}}"  max="{{taskModel.endDateString}}" name="startDateString" [(ngModel)]="taskModel.startDateString" placeholder="Start Date"
+             [disabled]="isParentTask" class="form-control datepicker"    type="date" style="width:175px!important;" required/>
+      <label>End Date</label>
+      <input #endDateString="ngModel"   min="{{taskModel.startDateString}}"  name="endDateString" [(ngModel)]="taskModel.endDateString" placeholder="End Date"
+             [disabled]="isParentTask" class="form-control datepicker" type="date" style="width:175px!important;" required/>
+    </div>
+    <div class="form-group form-inline">
+      <label>User</label>
+      <input type="text" placeholder="Select User" [disabled]="true" required class="form-control"
+             value="{{taskModel.userEmployeeId}} - {{taskModel.userName}}" autocomplete="off">
+      <button type="button" [disabled]="isParentTask" (click)="openUserSubModel(contentuser)" style="margin-left: 25px" class="glyphicon glyphicon-check">Search</button>
+      <small class="text-danger" [class.d-none]="!userErrorMessage">{{userErrorMessage}}</small>
+    </div>
+    <button id="submit" class="btn btn-primary" [hidden]="isEdit" [disabled]="userForm.form.invalid" type="submit">Add Task</button>
+    <button id="reset" class="btn btn-secondary" [hidden]="isEdit" type="reset">Reset</button>
+    <button id="update" class="btn btn-primary" [hidden]="!isEdit" [disabled]="userForm.form.invalid" type="submit">Update</button>
+    <button id="cancel" class="btn btn-secondary" [hidden]="!isEdit" (click)="cancelEdit()">Cancel</button>
+ </form>
+</div>
+
+<ng-template #contentuser let-modal>
+  <div class="double">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="text-align: center">Select User for Task</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group form-inline">
+        <label class="modelLabel">User</label>
+        <select class="form-control selectInput" id="selectedUserId" name="selectedUserId" [(ngModel)]="selectedUserId">
+          <option *ngFor="let user of users" value="{{user.userId}}">{{user.employeeId}} - {{user.firstName}}</option>
+        </select>
+      </div>
+      <button id="selectUser" class="btn btn-primary" (click)="selectUser()">Select</button>
+      <button id="cancelButton" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentparenttask let-modal>
+  <div class="double">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="text-align: center">Select Parent Task for Task</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group form-inline">
+        <label class="modelLabel">Parent Task</label>
+        <select class="form-control selectInput" id="selectedParentTaskId" name="selectedParentTaskId" [(ngModel)]="selectedParentTaskId">
+          <option *ngFor="let indParentTask of parentTasks" value="{{indParentTask.parentId}}">{{indParentTask.parentId}} - {{indParentTask.parentTask}}</option>
+        </select>
+      </div>
+      <button id="selectParentTask" class="btn btn-primary" (click)="selectParentTask()">Select</button>
+      <button id="cancelButton" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentproject let-modal>
+  <div class="double">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="text-align: center">Select Project for Task</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group form-inline">
+        <label class="modelLabel">Project</label>
+        <select class="form-control selectInput" id="selectedProjectId" name="selectedProjectId" [(ngModel)]="selectedProjectId">
+          <option *ngFor="let indProject of projects" value="{{indProject.projectId}}">{{indProject.projectId}} - {{indProject.project}}</option>
+        </select>
+      </div>
+      <button id="selectProjectTask" class="btn btn-primary" (click)="selectProject()">Select</button>
+      <button id="cancelButton" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    </div>
+  </div>
+</ng-template>
+
+

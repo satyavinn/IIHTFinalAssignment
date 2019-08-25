@@ -1,0 +1,81 @@
+<div class="double">
+  <div>
+    <label class="col-sm-2">Project</label>
+    <input class="col-sm-2 search" type="text" id="searchByTask" value="{{projectDisplayName}}" name="searchByTask"
+           placeholder="Search By Project" disabled="true">
+    <button type="button" (click)="openProjectSubModel(contentproject)" style="margin-left: 25px" class="glyphicon glyphicon-check">Search</button>
+  </div>
+  <div class="row col-xs-12" >
+    <div class="col-xs-2"><label style="padding: 5px!important; margin-top: 25px!important;">Sort Task By</label></div>
+    <div class="col-xs-2"><button type="button" [ngClass]="{
+            'green' : sortColumn === 'startDate' && sortIndicator,
+            'red' : sortColumn === 'startDate' && !sortIndicator
+         }" class="sortButton glyphicon glyphicon-check" (click)="sortTask('startDate')">Start Date</button></div>
+    <div class="col-xs-2"><button type="button" [ngClass]="{
+            'green' : sortColumn === 'endDate' && sortIndicator,
+            'red' : sortColumn === 'endDate' && !sortIndicator
+         }" class="sortButton glyphicon glyphicon-check" (click)="sortTask('endDate')">End Date</button></div>
+    <div class="col-xs-2"><button type="button" [ngClass]="{
+            'green' : sortColumn === 'priority' && sortIndicator,
+            'red' : sortColumn === 'priority' && !sortIndicator
+         }" class="sortButton glyphicon glyphicon-check" (click)="sortTask('priority')">Priority</button></div>
+    <div class="col-xs-2"><button type="button" [ngClass]="{
+            'green' : sortColumn === 'completed' && sortIndicator,
+            'red' : sortColumn === 'completed' && !sortIndicator
+         }" class="sortButton glyphicon glyphicon-check" (click)="sortTask('completed')">Completed</button></div>
+  </div>
+</div>
+<ul></ul>
+<div class="double">
+  <table id="viewtask" class="table table-hover">
+    <thead>
+    <tr>
+      <th>Task</th>
+      <th>Parent Task</th>
+      <th>Priority</th>
+      <th>Start</th>
+      <th>End</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let task of tasks | tasksort : sortColumn : sortIndicator | projecttasksearch : filterProjectTaskId">
+      <td>{{ task.task }}</td>
+      <td>{{ task.parentId }} - {{(parentTasks | parenttasksearch : task.parentId).parentTask }}
+      </td>
+      <td>{{ task.priority}}</td>
+      <td>{{ task.startDate | date : 'MM/dd/yyyy' }}</td>
+      <td>{{ task.endDate | date : 'MM/dd/yyyy' }}</td>
+      <td>
+        <button [disabled]="!task.status" (click)="updateTask(task.taskId)" type="button" class="glyphicon glyphicon-check">Edit</button>
+      </td>
+      <td>
+        <button [disabled]="!task.status" type="button" (click)="endTask(task)" class="glyphicon glyphicon-check">End Task
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #contentproject let-modal>
+  <div class="double">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="text-align: center">Select Project for Displaying Task</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group form-inline">
+        <label class="modelLabel">Project</label>
+        <select class="form-control selectInput" id="selectedProjectId" name="selectedProjectId" [(ngModel)]="selectedProjectId">
+          <option></option>
+          <option *ngFor="let indProject of projects" value="{{indProject.projectId}}">{{indProject.projectId}} - {{indProject.project}}</option>
+        </select>
+      </div>
+      <button id="selectProjectTask" class="btn btn-primary" (click)="selectProject()">Select</button>
+      <button id="cancelButton" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    </div>
+  </div>
+</ng-template>

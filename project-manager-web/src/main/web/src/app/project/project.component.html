@@ -1,0 +1,114 @@
+<br/>
+<div class="double">
+  <form id="addProjectForm" #userForm="ngForm" (ngSubmit)="onSubmit(projectModel)">
+    <div class="form-group form-inline">
+      <label>Project</label>
+      <input type="text" #project="ngModel" placeholder="Project" required class="form-control" minlength="5"
+             [class.is-invalid]="project.invalid && project.touched" name="project" [(ngModel)]="projectModel.project"
+             autocomplete="off">
+      <small class="text-danger" [class.d-none]="project.valid || project.untouched">Project is required</small>
+    </div>
+    <div class="form-group form-inline">
+        <input type="checkbox" class="form-check-input" style="margin-left: -300px;"
+               id="isDateEnabled" [checked]="isDateEnabled" (change)="dateSetterControl($event)">
+        <label style="margin-left: -250px; width: 200px">Set Start and End Date</label>
+      <input #startDateString="ngModel" min="{{todayString}}"  max="{{projectModel.endDateString}}" name="startDateString" [(ngModel)]="projectModel.startDateString" placeholder="Start Date"
+             [disabled]=!isDateEnabled class="form-control datepicker"    type="date" style="width:200px!important; margin-left: -25px" required/>
+      <input #endDateString="ngModel"   min="{{projectModel.startDateString}}"  name="endDateString" [(ngModel)]="projectModel.endDateString" placeholder="End Date"
+             [disabled]=!isDateEnabled class="form-control datepicker" type="date" style="width:200px!important; margin-left: 25px" required/>
+    </div>
+    <div class="form-group form-inline">
+      <label>Priority</label>
+      <input type="range" min="0" max="30" #priority="ngModel" placeholder="Priority" required class="form-control"
+             [class.is-invalid]="priority.invalid && priority.touched" name="priority"
+             [(ngModel)]="projectModel.priority" autocomplete="off">
+      <p style="margin-left: 25px;">{{projectModel.priority}}</p>
+      <small class="text-danger" [class.d-none]="priority.valid || priority.untouched">Priority is required</small>
+    </div>
+    <div class="form-group form-inline">
+      <label>Manager</label>
+      <input type="text" placeholder="Select Manager" [disabled]="true" required class="form-control"
+             value="{{projectModel.managerEmployeeId}} - {{projectModel.managerName}}" autocomplete="off">
+      <button type="button" (click)="openSubModel(content)" style="margin-left: 25px" class="glyphicon glyphicon-check">Search</button>
+      <small class="text-danger" [class.d-none]="!errorMessage">{{errorMessage}}</small>
+    </div>
+    <button id="submit" class="btn btn-primary" [hidden]="isEdit" [disabled]="userForm.form.invalid" type="submit">Add</button>
+    <button id="reset" class="btn btn-secondary" [hidden]="isEdit" type="reset">Reset</button>
+    <button id="update" class="btn btn-primary" [hidden]="!isEdit" [disabled]="userForm.form.invalid" type="submit">Update</button>
+    <button id="cancel" class="btn btn-secondary" [hidden]="!isEdit" (click)="cancelEdit()">Cancel</button>
+  </form>
+</div>
+<br/>
+<div class="double">
+  <div class="row col-xs-12" >
+    <div class="col-xs-2"><input type="text" placeholder="Search Project" [(ngModel)]="projectSearchText" name="projectSearchText" class="form-control" id="projectSearchText"></div>
+    <div class="col-xs-2"><label>Sort:</label></div>
+    <div class="col-xs-2"><button type="button" [ngClass]="{
+            'green' : sortColumn === 'startDate' && sortIndicator,
+            'red' : sortColumn === 'startDate' && !sortIndicator
+         }" class="sortButton glyphicon glyphicon-check" (click)="sortProject('startDate')">Start Date</button></div>
+    <div class="col-xs-2"><button type="button" [ngClass]="{
+            'green' : sortColumn === 'endDate' && sortIndicator,
+            'red' : sortColumn === 'endDate' && !sortIndicator
+         }" class="sortButton glyphicon glyphicon-check" (click)="sortProject('endDate')">End Date</button></div>
+    <div class="col-xs-2"><button type="button" [ngClass]="{
+            'green' : sortColumn === 'priority' && sortIndicator,
+            'red' : sortColumn === 'priority' && !sortIndicator
+         }" class="sortButton glyphicon glyphicon-check" (click)="sortProject('priority')">Priority</button></div>
+    <div class="col-xs-2"><button type="button" [ngClass]="{
+            'green' : sortColumn === 'completed' && sortIndicator,
+            'red' : sortColumn === 'completed' && !sortIndicator
+         }" class="sortButton glyphicon glyphicon-check" (click)="sortProject('completed')">Completed</button></div>
+  </div>
+  <table id="viewproject" class="table table-hover">
+    <thead>
+    <tr>
+      <th>Project</th>
+      <th>No. of Tasks.</th>
+      <th>No. of Completed Tasks.</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Priority</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let indProject of projects | projectsearch : projectSearchText | projectsort : sortColumn : sortIndicator">
+      <td>{{ indProject.project }}</td>
+      <td>{{ indProject.noOfTasks }}</td>
+      <td>{{ indProject.noOfCompletedTasks }}</td>
+      <td>{{ indProject.startDate | date : 'MM/dd/yyyy' }}</td>
+      <td>{{ indProject.endDate | date : 'MM/dd/yyyy' }}</td>
+      <td>{{ indProject.priority }}</td>
+      <td>
+        <button type="button" class="glyphicon glyphicon-check" [disabled]="projectSuspended(indProject)" (click)="editProjectPopulate(indProject)">Edit</button>
+      </td>
+      <td>
+        <button type="button" class="glyphicon glyphicon-check" [disabled]="projectSuspended(indProject)" (click)="suspendProject(indProject)">Suspend</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #content let-modal>
+  <div class="double">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="text-align: center">Select Manager for Project</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group form-inline">
+          <label class="modelLabel">Manager</label>
+          <select class="form-control selectInput" id="selectedManagerId" name="selectedManagerId" [(ngModel)]="selectedManagerId">
+            <option *ngFor="let user of users" value="{{user.userId}}">{{user.employeeId}} - {{user.firstName}}</option>
+          </select>
+        </div>
+        <button id="selectManager" class="btn btn-primary" (click)="selectManager()">Select</button>
+        <button id="cancelButton" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    </div>
+  </div>
+</ng-template>

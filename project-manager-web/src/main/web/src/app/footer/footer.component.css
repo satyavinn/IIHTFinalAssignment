@@ -1,0 +1,10 @@
+.footer {
+  text-align: center;
+  top: 2%;
+  border: black solid;
+  margin-top: 10px;
+}
+* {
+  font-family: "Trebuchet MS";
+  font-style: italic;
+}

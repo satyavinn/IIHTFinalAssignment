@@ -1,0 +1,143 @@
+.double {
+  border: double black;
+}
+
+#addProjectForm{
+  margin: auto;
+  display: table;
+  text-align: left;
+  padding: 50px 50px;
+  height: 90px
+}
+
+input{
+  color:black;
+  box-sizing: border-box;
+  border: 2px solid black ;
+  border-radius: 4px;
+  width: 500px !important;
+
+}
+
+h4 {
+  color:black;
+  text-align: center;
+  border: double black;
+  width: 100%;
+  background: grey;
+}
+
+.datepicker{
+  color:black;
+  box-sizing: border-box;
+  border: 2px solid black ;
+  border-radius: 4px;
+  width: 250px !important;
+}
+#viewproject tr:hover {background-color: #ddd;}
+
+#viewproject th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: grey;
+  color: white;
+}
+
+#projectSearchText
+{
+  margin: 20px;
+}
+label {
+  color: black;
+  float: left;
+  margin: 25px;
+  width : 100px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+small
+{
+  padding-left: 25px;
+}
+
+#submit,#update{
+  margin-left: 150px;
+  border-radius: 10px;
+  background-color:grey;
+  border-color: black;
+  position: center;
+  top: 90%;
+}
+#reset,#cancel{
+  margin-left: 20px;
+  border-radius: 10px;
+  background-color:grey;
+  border-color: black;
+  position: center;
+  top: 90%;
+}
+* {
+  font-family: "Trebuchet MS";
+  font-style: italic;
+}
+
+.green
+{
+  background-color: lightgreen;
+}
+.red
+{
+  background-color: lightpink;
+}
+.sortButton
+{
+  float: left;
+  margin: 25px 10px 25px 10px;
+  width : 125px;
+  font-weight: bold;
+  font-style: italic;
+}
+small
+{
+  padding-left: 25px;
+}
+
+#selectManager{
+  margin-left: 100px;
+  border-radius: 10px;
+  background-color:grey;
+  border-color: black;
+  position: center;
+  top: 90%;
+}
+#cancelButton{
+  margin-left: 50px;
+  border-radius: 10px;
+  background-color:grey;
+  border-color: black;
+  position: center;
+  top: 90%;
+  text-anchor: none;
+}
+
+.modelLabel{
+  color: black;
+  float: left;
+  margin: 10px;
+  width : 75px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.selectInput
+{
+  color:black;
+  box-sizing: border-box;
+  border: 2px solid black ;
+  border-radius: 4px;
+  width: 250px !important;
+}
+
+
