@@ -509,7 +509,7 @@
               <connectTime>true</connectTime>
             </value>
           </objProp>
-          <stringProp name="filename">C:\Users\Alagappan Annamalai\Desktop\Project Manager JMeter Load Test Plan.CSV</stringProp>
+          <stringProp name="filename">C:\Users\Satya\Desktop\Project Manager JMeter Load Test Plan.CSV</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
